@@ -2,6 +2,7 @@
 
 export("%>%")
 export(generateDF)
+export(generateData)
 import(dplyr)
 import(tibble)
 importFrom(magrittr,"%>%")

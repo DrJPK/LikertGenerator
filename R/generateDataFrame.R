@@ -55,7 +55,7 @@ generateDF <- function(n = 10,
     mu <- (itemlength + 1) / 2 #If mu not set, then set to middle of scale.
   }
   
-  d <- tibble::tibble(id = paste0(identifier, seq(1:n)),
+  d <- tibble::tibble(id = as.factor(paste0(identifier, seq(1:n))),
                       x = rnorm(n = n, mean = mu, sd = s))
   for (i in 1:scalewidth) {
     d <- d %>%
