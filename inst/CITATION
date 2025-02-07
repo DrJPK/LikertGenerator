@@ -1,0 +1,10 @@
+bibentry(
+  bibtype  = "Misc",
+  title    = "LikertGenerator: Creating simulated Likert style data sets",
+  author   = person("JohnPaul Kennedy"),
+  organization = "University of South Australia",
+  address = "Adelaide, South Australia",
+  version = "0.1",
+  year     = "2024",
+  url      = "https://github.com/DrJPK/LikertGenerator"
+)
