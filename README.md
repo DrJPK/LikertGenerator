@@ -37,4 +37,8 @@ install_github("DrJPK/LikertGenerator")
 
 Synthetic data sets created using this package and included in the package will be listed here along with their creation parameters
 
+### boys_girls_attitudes
+
+This is a simulated data set of 500 student responses without missing values. This represents 250 boys and 250 girls assigned equally to a control and an intervention group. By design, the mean attitude response across the 7 item scale for the boys in the control group should be 3.4 while for the girls this should be 2.9. The effect size for the boys is set so that the mean response of the boys in the intervention group is 3.9 while the mean response for the girls in the intervention group is 3.7.  Thus there should be observable differences for both genders by virtue of being in the intervention group and the effect should be stronger for girls than boys. The data should simulate a "closing the gap" type intervention. See `?boys_girls_attitudes` for full details.
+
 
