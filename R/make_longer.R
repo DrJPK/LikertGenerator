@@ -18,11 +18,31 @@
 #'  make_longer()
 
 make_longer <- function(.data){
-  .data%>%
-    tidyr::pivot_longer(
-      cols = dplyr::where(is.numeric), 
-      names_to = "Case", 
-      values_to = "Response")%>%
-    mutate(Treatment = as.factor(paste(Treatment,Case,sep = "_")))%>%
-    select(-Case)
+  ##Check to see if data columns are of mixed factor and numeric if so, then force everything to numeric format
+  
+  if(any(grepl("^Mean|^Sum", names(.data)))){
+    ## There are summary functions present which must be numeric.  Check for raw columns
+    if(any(grepl("^(x|e)[1-9]+$", names(.data)))){
+      .data <- .data%>%
+        LikertGenerator::to_numeric()
+    }
+    .data%>%
+      tidyr::pivot_longer(
+        cols = tidyselect::where(is.numeric),
+        names_to = "Item", 
+        values_to = "Response")%>%
+      mutate(Item = as.factor(Item))
+  }else{
+    ## no summary columns. Just pivot the x and e columns
+    .data%>%
+      tidyr::pivot_longer(
+        cols = tidyselect::matches("^(x|e)[1-9]+$"),
+        names_to = "Item", 
+        values_to = "Response")%>%
+      mutate(Item = as.factor(Item))
+  }
+  
+
+  
+  
 }
