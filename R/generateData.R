@@ -18,6 +18,8 @@
 #'
 #' @return A data frame with structure controlled by the value of return
 #' @export
+#' 
+#' @importFrom rlang :=
 #'
 #' @examples
 #' ##Create a simple data frame of 5 cases
@@ -104,17 +106,17 @@ generateData <- function(
   
   if(type == "sum"){
     d <- d %>%
-      dplyr::mutate(Sum = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+      dplyr::mutate(Sum = rowSums(dplyr::across(tidyselect::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(tidyselect::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }else{
     d <- d %>%
-      dplyr::mutate(Mean = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+      dplyr::mutate(Mean = rowMeans(dplyr::across(tidyselect::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(tidyselect::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }
 
@@ -137,17 +139,17 @@ generateData <- function(
       
       if(type == "sum"){
         tmp <- tmp %>%
-          dplyr::mutate(Sum = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+          dplyr::mutate(Sum = rowSums(dplyr::across(tidyselect::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(tidyselect::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }else{
         tmp <- tmp %>%
-          dplyr::mutate(Mean = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+          dplyr::mutate(Mean = rowMeans(dplyr::across(tidyselect::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(tidyselect::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }
       
@@ -157,7 +159,7 @@ generateData <- function(
   }
   
   d <- d %>%
-    dplyr::mutate(dplyr::across(dplyr::matches("^(x|e)[1-9]+$"), as.factor))
+    dplyr::mutate(dplyr::across(tidyselect::matches("^(x|e)[1-9]+$"), function(x){factor(x,levels = seq(1:itemlength))}))
   
   ##FINALLY TIDY UP AND RETURN ONLY WHAT IS ASKED FOR
   
@@ -181,10 +183,10 @@ generateData <- function(
     }
   }else if(rtn == "r"){
     d <- d %>%
-      dplyr::select(id, Treatment, dplyr::matches("^x[1-9]+$"))
+      dplyr::select(id, Treatment, tidyselect::matches("^x[1-9]+$"))
   }else if(rtn == "u"){
     d <- d %>%
-      dplyr::select(id, Treatment, dplyr::matches("^e[1-9]+$"))
+      dplyr::select(id, Treatment, tidyselect::matches("^e[1-9]+$"))
   }else{
     d <- d%>%
       dplyr::relocate(Treatment, .after = id)

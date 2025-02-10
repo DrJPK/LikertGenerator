@@ -84,13 +84,13 @@ generateDF <- function(n = 10,
   if (trim) {
     d <- d %>%
       dplyr::mutate(dplyr::across(
-        dplyr::matches("^(x|e)[1-9]+$"),
+        tidyselect::matches("^(x|e)[1-9]+$"),
         ~ dplyr::case_when(. < 1 ~ NA, . > itemlength ~ NA, TRUE ~ .)
       ))
   } else{
     d <- d %>%
       dplyr::mutate(dplyr::across(
-        dplyr::matches("^(x|e)[1-9]+$"),
+        tidyselect::matches("^(x|e)[1-9]+$"),
         ~ dplyr::case_when(. < 1 ~ 1, . > itemlength ~ itemlength, TRUE ~ .)
       ))
   }
