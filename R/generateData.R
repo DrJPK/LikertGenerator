@@ -125,14 +125,14 @@ generateData <- function(
       dplyr::mutate(Response = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(`Response + Uncertainty` = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(WithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }else{
     d <- d %>%
       dplyr::mutate(Response = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(`Response + Uncertainty` = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(WithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }
 
@@ -158,14 +158,14 @@ generateData <- function(
           dplyr::mutate(Response = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(`Response + Uncertainty` = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(WithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }else{
         tmp <- tmp %>%
           dplyr::mutate(Response = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(`Response + Uncertainty` = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(WithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }
       
@@ -182,7 +182,7 @@ generateData <- function(
         dplyr::select(id, Treatment, Response)
     }else{
       d <- d %>%
-        dplyr::select(id, Treatment, Response, `Response + Uncertainty`)
+        dplyr::select(id, Treatment, Response, WithUncertainty)
     }
   }else if(rtn == "r"){
     d <- d %>%
