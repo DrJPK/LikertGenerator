@@ -1,0 +1,12 @@
+utils::globalVariables(c(
+  "x",
+  "e",
+  "Treatment",
+  "Sum",
+  "Mean",
+  "SumWithUncertainty",
+  "MeanWithUncertainty",
+  "Response",
+  "steps",
+  "Item"
+))
