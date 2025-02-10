@@ -24,30 +24,47 @@
 #' generateData(n=5)
 #' 
 #' # A tibble: 5 × 3
-#'  id    Treatment Response
-#'  <fct> <fct>        <dbl>
-#'1 CON1  Control        2.8
-#'2 CON2  Control        2.6
-#'3 CON3  Control        3.4
-#'4 CON4  Control        3.4
-#'5 CON5  Control        2.6
+#'  id    Treatment  Mean
+#'  <fct> <fct>      <dbl>
+#'1 CON1  Control     2.8
+#'2 CON2  Control     2.6
+#'3 CON3  Control     3.4
+#'4 CON4  Control     3.4
+#'5 CON5  Control     2.6
 #' 
 #' ##Create a simple dataframe of 5 cases for each of boys and girls where the boys' responses are 1sd greater than the girls'.
 #' generateData(n=5,effect=1,identifiers=c("girls","boys"))
 #' 
 #' # A tibble: 10 × 3
-#'   id    Treatment Response
-#'   <fct> <fct>        <dbl>
-#' 1 GIR1  girls         2   
-#' 2 GIR2  girls         2.75
-#' 3 GIR3  girls         3.5 
-#' 4 GIR4  girls         2.6 
-#' 5 GIR5  girls         2.2 
-#' 6 BOY1  boys          3.25
-#' 7 BOY2  boys          3   
-#' 8 BOY3  boys          4.4 
-#' 9 BOY4  boys          3.6 
-#'10 BOY5  boys          2.25
+#'   id    Treatment  Mean
+#'   <fct> <fct>      <dbl>
+#' 1 GIR1  girls       2   
+#' 2 GIR2  girls       2.75
+#' 3 GIR3  girls       3.5 
+#' 4 GIR4  girls       2.6 
+#' 5 GIR5  girls       2.2 
+#' 6 BOY1  boys        3.25
+#' 7 BOY2  boys        3   
+#' 8 BOY3  boys        4.4 
+#' 9 BOY4  boys        3.6 
+#'10 BOY5  boys        2.25
+#'
+#' ##Create a simple dataframe with summed outputs 
+#'> generateData(n = 5, scalewidth = 3, effect = 1, identifiers = c("bees","birds"), type = "sum")
+#'Output type requested was "sum". trim has been set to FALSE to prevent NA's being introduced into the data
+#' # A tibble: 10 × 3
+#'   id    Treatment   Sum
+#'   <fct> <fct>       <dbl>
+#' 1 BEE1  bees         12
+#' 2 BEE2  bees          9
+#' 3 BEE3  bees          8
+#' 4 BEE4  bees          7
+#' 5 BEE5  bees         11
+#' 6 BIR1  birds        14
+#' 7 BIR2  birds        13
+#' 8 BIR3  birds        13
+#' 9 BIR4  birds        13
+#'10 BIR5  birds        11
 #'
 #' ##Create a dataframe of 5 cases for each of humans and aliens where the aliens' responses are 1 sd lower than the humans and fill in any NAs with min and max values. Generate items corresponding to a 4 point Likert item and have 7 items in the scale
 #' generateData(n=5,itemlength = 4, scalewidth = 7, effect = -1,identifiers=c("humans","aliens"), trim = FALSE, return = "raw")
@@ -91,6 +108,7 @@ generateData <- function(
   }
   
   if(type=="sum"){
+    message("Output type requested was \"sum\". trim has been set to FALSE to prevent NA's being introduced into the data")
     trim = FALSE
   }
   
