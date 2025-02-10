@@ -178,10 +178,10 @@ generateData <- function(
   
   if(rtn == "s"){
     if(is.null(delta)){
-      tmp <- tmp %>%
+      d <- d %>%
         dplyr::select(id, Treatment, Response)
     }else{
-      tmp <- tmp %>%
+      d <- d %>%
         dplyr::select(id, Treatment, Response, `Response + Uncertainty`)
     }
   }else if(rtn == "r"){
