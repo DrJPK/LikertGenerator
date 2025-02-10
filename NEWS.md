@@ -1,3 +1,4 @@
 # LikertGenerator (development version)
 
-* Initial CRAN submission.
+* Initial GitHub submission.
+* Function generateData() updated
