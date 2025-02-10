@@ -1,5 +1,5 @@
 Package: LikertGenerator
-Title: Create synthetic Likert like data according to well defined rules.
+Title: Create synthetic Likert like data according to well defined rules
 Version: 0.1.0
 Authors@R: 
     person("John", "Kennedy", , "john.kennedy@unisa.edu.au", role = c("aut", "cre"))
@@ -10,6 +10,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     dplyr,
+    stringr,
+    tidyr,
     tibble,
     magrittr
 Depends: 

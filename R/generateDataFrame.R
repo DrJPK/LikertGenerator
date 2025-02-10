@@ -24,13 +24,19 @@
 #' generateDF(identifier = "C")
 #' 
 #' ##As above but replace NA with min and max scale values
-#' generateDF(trim = FALSE, identifier = "C")
+#' generateDF(trim = FALSE, 
+#'            identifier = "C")
 #' 
 #' ##As example 1, but simulate 32% of participants misinterpreting scale points
-#' generateDF(delta = 1, identifier = "C")
+#' generateDF(delta = 1, 
+#'            identifier = "C")
 #'
 #' ##Create a 6-item scale, of 7-point Likert items centred on a response of 5 and no uncertainty.
-#' generateDF(n=20, itemlength = 7, scalewidth = 6, mu =5, identifier = "Student")
+#' generateDF(n=20, 
+#'            itemlength = 7, 
+#'            scalewidth = 6, 
+#'            mu =5, 
+#'            identifier = "Student")
 #' 
 generateDF <- function(n = 10,
                        itemlength = 5,
@@ -50,7 +56,7 @@ generateDF <- function(n = 10,
     }
   }
   
-  s = (4 * pnorm(sigma)) / (itemlength + 1) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
+  s = (4 * stats::pnorm(sigma)) / (itemlength + 1) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
   if (is.null(mu)) {
     mu <- (itemlength + 1) / 2 #If mu not set, then set to middle of scale.
   }
@@ -58,17 +64,17 @@ generateDF <- function(n = 10,
   num_digs <- floor(log10(n)) + 1
   
   d <- tibble::tibble(id = as.factor(paste0(identifier, stringr::str_pad(seq(1:n), width = num_digs, side = "left", pad = "0"))),
-                      x = rnorm(n = n, mean = mu, sd = s))
+                      x = stats::rnorm(n = n, mean = mu, sd = s))
   for (i in 1:scalewidth) {
     d <- d %>%
-      dplyr::mutate("x{i}" := round(x + rnorm(
+      dplyr::mutate("x{i}" := round(x + stats::rnorm(
         n = n, mean = 0, sd = rho
       ), 0))
   }
   
   if (!is.null(delta)) {
     d <- d %>%
-      dplyr::mutate(e = rnorm(n = n, mean = 0, sd = delta))
+      dplyr::mutate(e = stats::rnorm(n = n, mean = 0, sd = delta))
     for (i in 1:scalewidth) {
       d <- d %>%
         dplyr::mutate("e{i}" := round(!!as.name(paste0("x", i)) + e, 0))
@@ -88,9 +94,9 @@ generateDF <- function(n = 10,
         ~ dplyr::case_when(. < 1 ~ 1, . > itemlength ~ itemlength, TRUE ~ .)
       ))
   }
-  d <- d %>% select(-x)
+  d <- d %>% dplyr::select(-x)
   if (!is.null(delta)) {
-    d <- d %>% select(-e)
+    d <- d %>% dplyr::select(-e)
   }
   return(d)
 }

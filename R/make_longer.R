@@ -8,37 +8,14 @@
 #' @export
 #'
 #' @examples
-#' generateData(n = 5, scalewidth = 3, return = "raw")
-#' A tibble: 5 × 5
-#'  `id    Treatment    x1    x2    x3
-#'  `<fct> <fct>     <dbl> <dbl> <dbl>
-#'1 CON1  Control       3     4     3
-#'2 CON2  Control       2     4     2
-#'3 CON3  Control       1     1     1
-#'4 CON4  Control       3    NA     4
-#'5 CON5  Control       3     2     4
+#' generateData(n = 5, 
+#'              scalewidth = 3, 
+#'              return = "raw")
 #'
-#'generateData(n = 5, scalewidth = 3, return = "raw")%>%
+#'generateData(n = 5, 
+#'             scalewidth = 3, 
+#'             return = "raw")%>%
 #'  make_longer()
-#'  # A tibble: 15 × 3
-#'   id    Treatment  Response
-#'   <fct> <fct>         <dbl>
-#' 1 CON1  Control_x1        2
-#' 2 CON1  Control_x2        2
-#' 3 CON1  Control_x3       NA
-#' 4 CON2  Control_x1        5
-#' 5 CON2  Control_x2        4
-#' 6 CON2  Control_x3        1
-#' 7 CON3  Control_x1        1
-#' 8 CON3  Control_x2       NA
-#' 9 CON3  Control_x3        2
-#'10 CON4  Control_x1        3
-#'11 CON4  Control_x2        1
-#'12 CON4  Control_x3        4
-#'13 CON5  Control_x1        3
-#'14 CON5  Control_x2        5
-#'15 CON5  Control_x3        3
-#'
 
 make_longer <- function(.data){
   .data%>%

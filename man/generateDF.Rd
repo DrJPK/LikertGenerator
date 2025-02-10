@@ -49,12 +49,18 @@ Generates a dataframe of variable width that corresponds to \strong{raw} Likert 
 generateDF(identifier = "C")
 
 ##As above but replace NA with min and max scale values
-generateDF(trim = FALSE, identifier = "C")
+generateDF(trim = FALSE, 
+           identifier = "C")
 
 ##As example 1, but simulate 32\% of participants misinterpreting scale points
-generateDF(delta = 1, identifier = "C")
+generateDF(delta = 1, 
+           identifier = "C")
 
 ##Create a 6-item scale, of 7-point Likert items centred on a response of 5 and no uncertainty.
-generateDF(n=20, itemlength = 7, scalewidth = 6, mu =5, identifier = "Student")
+generateDF(n=20, 
+           itemlength = 7, 
+           scalewidth = 6, 
+           mu =5, 
+           identifier = "Student")
 
 }
