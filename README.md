@@ -27,10 +27,11 @@ install_github("DrJPK/LikertGenerator")
 
 ## Usage
 
-`library(LikertGenerator)`{.R} will load the basic packages.
+`library(LikertGenerator)` will load the basic packages.
 
-* `generateDF()`{.R} will generate a wide format data frame where each row represents a single respondent
-* `generateData()`{.R} will generate either summary data or raw responses for single or multiple treatment groups.
+* `generateDF()` will generate a wide format data frame where each row represents a single respondent.
+* `generateData()` will generate either summary data or raw responses for single or multiple treatment groups.
+* `make_longer()` takes the output of `generateData()` and converts it to long format for easy manipulation with other tidyverse packages.
 
 ## Datasets
 
