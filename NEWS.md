@@ -1,4 +1,4 @@
-# LikertGenerator (development version)
+# LikertGenerator 0.1.0
 
 * Initial GitHub submission.
 * Function generateData() updated to make variable names more informative
