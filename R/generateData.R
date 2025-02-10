@@ -122,17 +122,17 @@ generateData <- function(
   
   if(type == "sum"){
     d <- d %>%
-      dplyr::mutate(Response = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+      dplyr::mutate(Sum = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(WithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }else{
     d <- d %>%
-      dplyr::mutate(Response = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+      dplyr::mutate(Mean = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
     if(!is.null(delta)){
       d<-d %>%
-        dplyr::mutate(WithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+        dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
     }
   }
 
@@ -155,17 +155,17 @@ generateData <- function(
       
       if(type == "sum"){
         tmp <- tmp %>%
-          dplyr::mutate(Response = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+          dplyr::mutate(Sum = rowSums(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(WithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(SumWithUncertainty = rowSums(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }else{
         tmp <- tmp %>%
-          dplyr::mutate(Response = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
+          dplyr::mutate(Mean = rowMeans(dplyr::across(dplyr::matches("^x[1-9]+$")), na.rm = TRUE))
         if(!is.null(delta)){
           tmp<-tmp %>%
-            dplyr::mutate(WithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
+            dplyr::mutate(MeanWithUncertainty = rowMeans(dplyr::across(dplyr::matches("^e[1-9]+$")), na.rm = TRUE))
         }
       }
       
@@ -178,11 +178,21 @@ generateData <- function(
   
   if(rtn == "s"){
     if(is.null(delta)){
-      d <- d %>%
-        dplyr::select(id, Treatment, Response)
+      if(type == "sum"){
+        d <- d %>%
+          dplyr::select(id, Treatment, Sum)
+      }else{
+        d <- d %>%
+          dplyr::select(id, Treatment, Mean)
+      }
     }else{
-      d <- d %>%
-        dplyr::select(id, Treatment, Response, WithUncertainty)
+      if(type == "sum"){
+        d <- d %>%
+          dplyr::select(id, Treatment, Sum, SumWithUncertainty)
+      }else{
+        d <- d %>%
+          dplyr::select(id, Treatment, Mean, MeanWithUncertainty)
+      }
     }
   }else if(rtn == "r"){
     d <- d %>%
