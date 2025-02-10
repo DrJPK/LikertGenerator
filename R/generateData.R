@@ -156,6 +156,9 @@ generateData <- function(
     
   }
   
+  d <- d %>%
+    dplyr::mutate(dplyr::across(dplyr::matches("^(x|e)[1-9]+$"), as.factor))
+  
   ##FINALLY TIDY UP AND RETURN ONLY WHAT IS ASKED FOR
   
   if(rtn == "s"){
