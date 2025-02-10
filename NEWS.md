@@ -1,3 +1,8 @@
+# LikertGenerator 0.2.0
+
+* added helper functions to_numeric() and label_variables()
+* general tidyup of codebase
+
 # LikertGenerator 0.1.0
 
 * Initial GitHub submission.
