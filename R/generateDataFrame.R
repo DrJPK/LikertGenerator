@@ -56,7 +56,7 @@ generateDF <- function(n = 10,
     }
   }
   
-  s = (4 * stats::pnorm(sigma)) / (itemlength + 1) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
+  s = itemlength/(sigma*2) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
   if (is.null(mu)) {
     mu <- (itemlength + 1) / 2 #If mu not set, then set to middle of scale.
   }
