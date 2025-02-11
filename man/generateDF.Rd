@@ -30,7 +30,7 @@ generateDF(
 
 \item{rho}{The standard deviation of the item responses \strong{per} row. This corresponds to variability within the items on a per respondent level.}
 
-\item{sigma}{how many standard deviations should the full range really represent}
+\item{sigma}{how many standard deviations either side of mu should the full range really represent}
 
 \item{identifier}{An optional string that is prepended to id variables}
 

@@ -8,7 +8,7 @@
 #' @param mu The intended mean response of the first group. If not set, then the centre of the item length is used.
 #' @param delta If simulation of misunderstanding the scale choice points is desired, then this sets the standard deviation of the uncertainty in the data.
 #' @param rho The standard deviation of the item responses **per** case. This corresponds to variability **within** each respondent's scores
-#' @param sigma How many standard deviations should the full width of the Likert item choices really represent?
+#' @param sigma How many standard deviations either side of mu should the width of the Likert item choices really represent?
 #' @param trim What should be done with out of range values. If TRUE then out of range values will be replaced with NA. If FALSE, then out of range values will be trimmed to the min of max item choices as appropriate.
 #' @param identifiers A vector of strings corresponding to group identifiers. The first three letters will be manipulated to create case identifiers. The first value will always be used. subsequent values will only be used if effect is not NULL
 #' @param effect A numeric vector corresponding to the intended effect sizes for each of the groups other than the first group. This should have length 1 less than identifiers.
@@ -85,7 +85,6 @@ generateData <- function(
     rtn <- "a"
   }
   
-  s = (4 * stats::pnorm(sigma)) / (itemlength + 1) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
   if (is.null(mu)) {
     mu <- (itemlength + 1) / 2 #If mu not set, then set to middle of scale.
   }
@@ -98,7 +97,7 @@ generateData <- function(
                    mu = mu,
                    delta = delta,
                    rho = rho,
-                   sigma = s,
+                   sigma = sigma,
                    identifier = stringr::str_to_upper(stringr::str_pad(stringr::str_sub(identifiers[1],1,3), width = 3, pad = "_", side = "right")),
                    trim = trim)
   d <- d %>%
@@ -130,7 +129,7 @@ generateData <- function(
                       mu = mu + effect[i],
                       delta = delta,
                       rho = rho,
-                      sigma = s,
+                      sigma = sigma,
                       identifier = stringr::str_to_upper(stringr::str_pad(stringr::str_sub(identifiers[1+i],1,3), width = 3, pad = "_", side = "right")),
                       trim = trim)
       

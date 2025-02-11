@@ -8,7 +8,7 @@
 #' @param mu The intended mean scale point of the returned data set. If not set, then the centre of the scale is used.
 #' @param delta If uncertainty related to misunderstanding the scale items is desired, then this sets the magnitude of the standard deviation of that uncertainty
 #' @param rho The standard deviation of the item responses **per** row. This corresponds to variability within the items on a per respondent level.
-#' @param sigma how many standard deviations should the full range really represent
+#' @param sigma how many standard deviations either side of mu should the full range really represent
 #' @param identifier An optional string that is prepended to id variables
 #' @param seed optional seed for the random number generator
 #' @param trim If TRUE then out of range values will be replaced by NA. If FALSE then out of range values will be set to the min and max values as appropriate
@@ -56,7 +56,8 @@ generateDF <- function(n = 10,
     }
   }
   
-  s = itemlength/(sigma*2) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
+  s = (sigma*2) / (itemlength - 1) #This sets the width of the whole scale in terms of the number of standard deviations that should fit in the full scale width
+
   if (is.null(mu)) {
     mu <- (itemlength + 1) / 2 #If mu not set, then set to middle of scale.
   }

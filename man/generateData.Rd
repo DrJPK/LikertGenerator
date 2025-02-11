@@ -33,7 +33,7 @@ generateData(
 
 \item{rho}{The standard deviation of the item responses \strong{per} case. This corresponds to variability \strong{within} each respondent's scores}
 
-\item{sigma}{How many standard deviations should the full width of the Likert item choices really represent?}
+\item{sigma}{How many standard deviations either side of mu should the width of the Likert item choices really represent?}
 
 \item{trim}{What should be done with out of range values. If TRUE then out of range values will be replaced with NA. If FALSE, then out of range values will be trimmed to the min of max item choices as appropriate.}
 
