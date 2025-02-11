@@ -32,8 +32,9 @@ install_github("DrJPK/LikertGenerator")
 * `generateDF()` will generate a wide format data frame where each row represents a single respondent. Generally you will not want to call this function directly.
 * `generateData()` will generate either summary data or raw responses for single or multiple treatment groups.
 * `make_longer()` takes the output of `generateData()` and converts it to long format for easy manipulation with other tidyverse packages.
-* `to_numeric()` takes the output of `generateData()` and converts any columns representing actual data from factor to numeric format
-* `label_variables()` takes the output of `generateData()` and labels the factor levels with human readable levels
+* `to_numeric()` takes the output of `generateData()` and converts any columns representing actual data from factor to numeric format.
+* `label_variables()` takes the output of `generateData()` and labels the factor levels with human readable levels.
+* `visulise()` takes the ouput of `generateData()` and presents it as a rough GGPlot2 graphic for further manipulation.
 
 ## Datasets
 

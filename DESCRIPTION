@@ -15,7 +15,9 @@ Imports:
     stringr,
     tidyr,
     tibble,
-    magrittr
+    magrittr,
+    ggplot2,
+    scales
 Depends: 
     R (>= 3.5)
 LazyData: true
