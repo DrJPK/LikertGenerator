@@ -1,6 +1,6 @@
 Package: LikertGenerator
 Title: Create synthetic Likert like data according to well defined rules
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     person("John", "Kennedy", , "john.kennedy@unisa.edu.au", role = c("aut", "cre"))
 Description: Synthetic Likert style data is notoriously difficult to create in a replicable manner. This package aims to provide a mechanisim for users to make datasets of arbitrary length that simulate Likert style data for the purposes of testing other functions and pacakages.

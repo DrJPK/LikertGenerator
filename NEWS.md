@@ -1,3 +1,5 @@
+# LikertGenerator 0.2.1
+
 # LikertGenerator 0.2.0
 
 * added helper functions to_numeric() and label_variables()
