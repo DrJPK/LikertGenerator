@@ -1,6 +1,12 @@
+```{r echo=FALSE, results="hide", message=FALSE}
+library("badger")
+```
+
 # LikertGenerator: Creating simulated Likert style data sets
 
 An R Package to create synthetic Likert Style data sets for teaching, testing or other purposes.
+
+`r badge_lifecycle("Development")` `r badge_repostatus("Active")` `r badge_last_commit("DrJPK/LikertGenerator")`
 
 ## Overview
 
