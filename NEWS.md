@@ -1,3 +1,5 @@
+# LikertGenerator 0.2.2
+
 # LikertGenerator 0.2.1
 
 # LikertGenerator 0.2.0
