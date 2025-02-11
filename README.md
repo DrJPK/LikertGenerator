@@ -1,5 +1,9 @@
 # LikertGenerator: Creating simulated Likert style data sets
 
+![Static Badge](https://img.shields.io/badge/iD-0000--0002--8126--7086-A6CE39)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/DrJPK/LikertGenerator)
+![CRAN/METACRAN Version](https://img.shields.io/cran/v/LikertGenerator)
+
 An R Package to create synthetic Likert Style data sets for teaching, testing or other purposes.
 
 ## Overview
