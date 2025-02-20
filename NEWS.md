@@ -1,4 +1,4 @@
-# LikertGenerator (development version)
+# LikertGenerator 0.2.3
 
 # LikertGenerator 0.2.2
 
