@@ -17,7 +17,8 @@ Imports:
     tibble,
     magrittr,
     ggplot2,
-    scales
+    scales,
+    psych
 Depends: 
     R (>= 3.5)
 LazyData: true
