@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_alpha.R
 \name{make_alpha_table}
 \alias{make_alpha_table}
-\title{Compute table of data spread and Cronbacj alpha}
+\title{Compute table of data spread and Cronbach alpha}
 \usage{
 make_alpha_table(scalelength = 5, samples = 5, cases = 5000)
 }
@@ -14,7 +14,7 @@ make_alpha_table(scalelength = 5, samples = 5, cases = 5000)
 \item{cases}{How many cases should be generated for each simulation run.}
 }
 \value{
-a 2 column tibble
+a 2 column tibble of class alphatable
 }
 \description{
 Alpha, a commonly accepted measure of internal consistency needs to be computed from actual data rather than theory. Data that have very little variability within a case have high internal consistency. This helper function creates a series of simulated data points with random noise added drawn from a normal distribution of varying standard distribution from 0 to 4. Alpha is then calculated for each set of results and a summary table is returned.  This is a slow function and it is very unlikely you actually want to be calling it.
