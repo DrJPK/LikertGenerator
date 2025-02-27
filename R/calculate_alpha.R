@@ -13,7 +13,7 @@
 #' make_alpha_table()
 #' 
 #' make_alpha_table(scalelength = 7, samples = 8)
-
+#' 
 make_alpha_table <- function(scalelength = 5, samples = 5, cases=5000){
   t <- tibble::tibble(sd = numeric(),
                       alpha = numeric()
@@ -35,24 +35,56 @@ make_alpha_table <- function(scalelength = 5, samples = 5, cases=5000){
       t <- dplyr::bind_rows(t,tmp)
     }
   }
-  class(t) <- c(class(t),"alphatable")
+  class(t) <- c("alphatable",class(t))
   return(t)
 }
 
-# print.alphatable <- function(x,...){
-#   
-#   x%>%
-#     ggplot2::ggplot(ggplot2::aes(y = sd^sqrt(2), x = log(alpha)))+
-#     ggplot2::geom_point()+
-#     ggplot2::geom_function(fun = \(x){0.0657 - 4.621*x}, color = "red")
-# }
-# 
-# get_alpha_line <- function(data){
-#   params<-determine_alpha_fit(data = data)
-#   return( function(x){
-#     params$intercept + params$slope * x
-#   })
-# }
+#' Checking data classes of alphatable
+#'
+#' Check if an object contains all the necessary information to be an alphatable model
+#' @param x any R object
+#'
+#' @return returns TRUE it its argument is an alphatable dataframe or FALSE otehrwise
+#' @export
+#'
+#' @examples
+#' x <- tibble::tibble(sd = seq(0,1, by=0.1), alpha = (1 - sd))
+#' is.alphatable(x)
+#' 
+#' x <- make_alpha_table()
+#' is.alphatable(x)
+#' 
+is.alphatable <- function(x){
+  inherits(x,"alphatable")
+}
+
+#' Draw a plot showing the quality of the fit between 
+#'
+#' @param x a dataset of class alphatable
+#' @param ... values passed to other functions
+#'
+#' @return ggplot2 object
+#' @export
+#'
+#' @examples
+#' \donttest{
+#' x <- make_alpha_table()
+#' plot_alpha_curve(x)
+#' }
+#' 
+plot_alpha_curve <- function(x,...){
+  if(!is.alphatable(x)){
+    stop("This function only works with alphatable objects!!")
+  }
+  params <- determine_alpha_fit(data = x)$coefficients
+  p <- x %>%
+    ggplot2::ggplot(ggplot2::aes(y = `sd`^sqrt(2), x = log(alpha))) +
+    ggplot2::geom_point() +
+    ggplot2::geom_function(fun = \(x){params$intercept +params$slope * x}, color = "red") +
+    ggplot2::labs(x = "ln(&alpha;)", y = "&sigma;<sup>&Sqrt;2</sup>") +
+    ggplot2::theme(axis.title = ggtext::element_markdown())
+  return(p)
+}
 
 #' Calculate Cronbach Alpha
 #' 
@@ -70,6 +102,7 @@ make_alpha_table <- function(scalelength = 5, samples = 5, cases=5000){
 #'   I3 = c(8,6,6,4,2,2,6)
 #' )
 #' alpha(d)
+#' 
 alpha <-function(data){
   V <- data %>%
     dplyr::select(tidyselect::where(is.numeric))%>%
@@ -92,12 +125,12 @@ alpha <-function(data){
 #' @param scalelength How many items are in the simulated scale? This should match the Likert Scale you are trying to replicate.
 #' @param samples How many runs should be undertaken? More is generally better and will result in less noise at low consistency, but this is at the expense of speed.
 #' @param data optional dataframe of class alphatable to speed up processing by reusing pre-generated data
+#' @param ... further arguments passed to or from other methods
 #'
 #' @return an object of class alphafit
 #' @export
 #'
 #' @examples
-#' 
 #' determine_alpha_fit()
 #' 
 determine_alpha_fit <- function(scalelength = 5, samples = 5, data = NULL, ...){
@@ -129,9 +162,9 @@ determine_alpha_fit <- function(scalelength = 5, samples = 5, data = NULL, ...){
 #' @export
 #'
 #' @examples
-#' 
 #' x <- determine_alpha_fit()
 #' print(x)
+#' 
 print.alphafit <- function(x, ...){
   cat("Fit Parameters\n")
   cat("  Intercept    Slope\n")
@@ -202,14 +235,45 @@ estimate_rho <-function(alpha, model){
   if(!is.numeric(alpha)){
     stop("Alpha must be a numeric value between 0 and 1")
   }
-  if(!between(as.numeric(alpha),0,1)){
+  if(any(!between(as.numeric(alpha),0,1))){
     stop("Alpha must be a numeric value between 0 and 1")
   }
-  if(as.numeric(alpha) == 1){
-    return(0)
+  r <- ifelse(alpha == 1,
+              0,
+              ifelse(alpha == 0,
+                     Inf, 
+                     exp(sqrt(2) * log(model$coefficients$slope * log(as.numeric(alpha)) + model$coefficients$intercept))
+                     )
+              )
+  return(r)
+}
+
+#' Plot the Alpha to Rho Calibration curve
+#' 
+#' Rho for use in `generateData()` is determined by simulation and the generation of an approximate equation essentially making use of a calibration curve. Use this function to show that calibration curve
+#'
+#' @param model an alphafit model
+#'
+#' @return a ggplot2 object
+#' @export
+#'
+#' @examples
+#' m <- determine_alpha_fit()
+#' plot_rho_curve(m)
+#' 
+plot_rho_curve <-function(model){
+  if(!is.alphafit(model)){
+    stop("A valid alphafit model has not been supplied. Please make sure you call `determine_alpha_fit()` to generate the necessary model first!")
   }
-  if(as.numeric(alpha == 0)){
-    return(Inf)
-  }
-  return(exp(sqrt(2) * log(model$coefficients$slope * log(as.numeric(alpha)) + model$coefficients$intercept)))
+    df <- tibble::tibble(alpha = seq(0,1, by = 0.01),
+                         rho = estimate_rho(alpha,model))
+    p <- df %>%
+      dplyr::mutate(rho = dplyr::case_when(rho == Inf ~ NA, TRUE ~ rho)) %>%
+      tidyr::drop_na()%>%
+      ggplot2::ggplot(ggplot2::aes(x = alpha, y = `rho`)) +
+      ggplot2::geom_point() +
+      ggplot2::geom_smooth(formula = y ~ log(x), method = "loess", se = FALSE, colour = "red")+
+      ggplot2::labs(x = "&alpha;", y = "&rho;") +
+      ggplot2::theme(axis.title = ggtext::element_markdown())
+    return(p)
 }

@@ -18,7 +18,7 @@ Output to StdOut
 Generic Print Method for class(alphafit)
 }
 \examples{
-
 x <- determine_alpha_fit()
 print(x)
+
 }

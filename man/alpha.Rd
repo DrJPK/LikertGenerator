@@ -22,4 +22,5 @@ d <- tibble::tibble(
   I3 = c(8,6,6,4,2,2,6)
 )
 alpha(d)
+
 }

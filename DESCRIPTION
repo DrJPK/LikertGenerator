@@ -18,7 +18,7 @@ Imports:
     magrittr,
     ggplot2,
     scales,
-    psych
+    ggtext
 Depends: 
     R (>= 3.5)
 LazyData: true

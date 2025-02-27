@@ -23,4 +23,5 @@ Alpha, a commonly accepted measure of internal consistency needs to be computed 
 make_alpha_table()
 
 make_alpha_table(scalelength = 7, samples = 8)
+
 }
