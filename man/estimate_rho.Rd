@@ -38,4 +38,8 @@ estimate_rho(alpha = 0.8, model = m)
 \code{\link[=determine_alpha_fit]{determine_alpha_fit()}}
 
 \code{\link[=generateData]{generateData()}}
+
+\code{\link[=plot_rho_curve]{plot_rho_curve()}}
+
+\code{\link[=estimate_alpha]{estimate_alpha()}}
 }

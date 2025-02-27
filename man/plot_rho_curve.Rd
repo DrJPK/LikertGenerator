@@ -16,7 +16,9 @@ a ggplot2 object
 Rho for use in \code{generateData()} is determined by simulation and the generation of an approximate equation essentially making use of a calibration curve. Use this function to show that calibration curve
 }
 \examples{
+\donttest{
 m <- determine_alpha_fit()
 plot_rho_curve(m)
+}
 
 }

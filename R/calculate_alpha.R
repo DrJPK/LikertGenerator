@@ -81,8 +81,7 @@ plot_alpha_curve <- function(x,...){
     ggplot2::ggplot(ggplot2::aes(y = `sd`^sqrt(2), x = log(alpha))) +
     ggplot2::geom_point() +
     ggplot2::geom_function(fun = \(x){params$intercept +params$slope * x}, color = "red") +
-    ggplot2::labs(x = "ln(&alpha;)", y = "&sigma;<sup>&Sqrt;2</sup>") +
-    ggplot2::theme(axis.title = ggtext::element_markdown())
+    ggplot2::labs(x = "ln(alpha)", y = "SD^sqrt(2)")
   return(p)
 }
 
@@ -223,6 +222,8 @@ is.alphafit <- function(x){
 #'
 #' @seealso [determine_alpha_fit()]
 #' @seealso [generateData()]
+#' @seealso [plot_rho_curve()]
+#' @seealso [estimate_alpha()]
 #' 
 #' @examples
 #' m <- determine_alpha_fit()
@@ -242,7 +243,7 @@ estimate_rho <-function(alpha, model){
               0,
               ifelse(alpha == 0,
                      Inf, 
-                     exp(sqrt(2) * log(model$coefficients$slope * log(as.numeric(alpha)) + model$coefficients$intercept))
+                     exp((1/sqrt(2)) * log(model$coefficients$slope * log(as.numeric(alpha)) + model$coefficients$intercept))
                      )
               )
   return(r)
@@ -258,8 +259,10 @@ estimate_rho <-function(alpha, model){
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' m <- determine_alpha_fit()
 #' plot_rho_curve(m)
+#' }
 #' 
 plot_rho_curve <-function(model){
   if(!is.alphafit(model)){
@@ -273,7 +276,47 @@ plot_rho_curve <-function(model){
       ggplot2::ggplot(ggplot2::aes(x = alpha, y = `rho`)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(formula = y ~ log(x), method = "loess", se = FALSE, colour = "red")+
-      ggplot2::labs(x = "&alpha;", y = "&rho;") +
-      ggplot2::theme(axis.title = ggtext::element_markdown())
+      ggplot2::labs(x = "alpha", y = "rho") 
+
     return(p)
+}
+
+#' Estimate the implied value of alpha from rho
+#' 
+#' @description
+#' In `generateDF()` and `generateData()` the parameter `rho` controls the variability within the responses for **each** respondent(case) if a multi item scale is being created. Rho corresponds to the standard deviation of the distribution used to generate the individual item responses and is dependent on the number of items in the Likert scale and the intended internal consistency (measured using Cronbach alpha for simplicity). Sometimes it is necessary to back calculate the value of alpha for a model from a chosen rho. This function allows for a value of alpha to be determined relatively easily.
+#'
+#' @param rho The desired value of rho to test
+#' @param model A model created by `determine_alpha_fit()`
+#'
+#' @return A numeric value for alpha
+#' @export
+#' 
+#' @seealso [estimate_rho()]
+#' @seealso [determine_alpha_fit()]
+#' @seealso [generateData()]
+#' @seealso [plot_rho_curve()]
+#'
+#' @examples
+#' m <- determine_alpha_fit(data = x)
+#' estimate_alpha(1.46, m)
+#' 
+estimate_alpha <-function(rho, model){
+  if(!is.alphafit(model)){
+    stop("A valid alphafit model has not been supplied. Please make sure you call `determine_alpha_fit()` to generate the necessary model first!")
+  }
+  if(!is.numeric(rho)){
+    stop("Rho must be a numeric value between 0 and 1")
+  }
+  if(any(as.numeric(rho) < 0)){
+    stop("Rho must be a positive numeric value or zero")
+  }
+  r <- ifelse(rho == 0,
+              1,
+              ifelse(rho == Inf,
+                     0, 
+                     exp((rho^sqrt(2) - model$coefficients$intercept) / model$coefficients$slope)
+              )
+  )
+  return(r)
 }
